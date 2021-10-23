@@ -5,6 +5,7 @@ window.addEventListener("load", () => {
   /* -------------------------- Getting form elements ------------------------- */
   let arrayInput = document.querySelectorAll("input");
   let btnSignUp = document.querySelector("form button");
+  let form = document.querySelector("form");
 
   /* --------------------------------- Events --------------------------------- */
   btnSignUp.addEventListener("click", signUp);
@@ -14,12 +15,12 @@ window.addEventListener("load", () => {
   let formKeys = ["firstName", "lastName", "email", "password"];
 
   /* -------------------------------- Functions ------------------------------- */
-  let form = {};
+  let userForm = {};
 
   function signUp(e) {
     e.preventDefault();
     for (let i = 0; i < formKeys.length; i++) {
-      form[formKeys[i]] = arrayInput[i].value;
+      userForm[formKeys[i]] = arrayInput[i].value;
     }
     runFetch();
   }
@@ -28,7 +29,7 @@ window.addEventListener("load", () => {
 
   function runFetch() {
     const apiEndpoint = "https://ctd-todo-api.herokuapp.com/v1/users";
-    const payload = JSON.stringify(form);
+    const payload = JSON.stringify(userForm);
     const configuration = {
       method: "POST",
       body: payload,
@@ -44,8 +45,13 @@ window.addEventListener("load", () => {
       })
       .then((json) => {
         // console.log("Recurso creado exitosamente");
+        // window.location.href = '../index.html'
+        successfullySignUp();
         console.log(json);
         // console.log(payload);
       });
-  }
+  };
+  function successfullySignUp(){
+      form.innerHTML = `Su registro ha sido exitoso!`
+    }
 });
